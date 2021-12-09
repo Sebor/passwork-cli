@@ -71,24 +71,3 @@ func getTokenFromFile(tokenfile string) (string, error) {
 
 	return token.Data.Token, nil
 }
-
-// func isTokenExpired(tokenFilepath string) (bool, error) {
-// 	data, err := os.ReadFile("/Users/sebor/.passwork-token")
-// 	if err != nil {
-// 		return false, fmt.Errorf("ERROR: %s", err.Error())
-// 	}
-// 	token := APIToken{}
-
-// 	err = json.Unmarshal(data, &token)
-// 	if err != nil {
-// 		return false, fmt.Errorf("ERROR: %s", err.Error())
-// 	}
-
-// 	timeUnixNow := time.Now().Unix()
-// 	if timeUnixNow > token.Data.TokenExpiredAt {
-// 		return true, nil
-// 	}
-
-// 	fmt.Println(token.Data.TokenExpiredAt)
-// 	return false, nil
-// }

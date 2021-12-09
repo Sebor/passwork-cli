@@ -91,18 +91,3 @@ func VaultPasswords(url, tokenfile, vaultID string) error {
 
 	return nil
 }
-
-// func VaultAdd(url, tokenfile, name string) error {
-// 	token, err := getTokenFromFile(tokenfile)
-// 	if err != nil {
-// 		return fmt.Errorf("ERROR: %s", err.Error())
-// 	}
-
-// 	url = url + VAULTS_URI_PREFIX + vaultID + "/passwords"
-// 	_, err = callAPI(url, "GET", token, nil)
-// 	if err != nil {
-// 		return err
-// 	}
-
-// 	return nil
-// }
