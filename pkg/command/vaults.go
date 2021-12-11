@@ -1,7 +1,6 @@
 package command
 
 import (
-	"fmt"
 	"password-cli/pkg/action"
 
 	"github.com/urfave/cli/v2"
@@ -17,7 +16,13 @@ var VaultCommands = cli.Command{
 			Aliases: []string{"l"},
 			Usage:   "Get list of user vaults",
 			Action: func(c *cli.Context) error {
-				err := action.VaultList(c.String("api-url"), c.String("tokenfile"))
+				a := action.Vault{
+					Config: action.GlobalConfig{
+						APIUrl:    c.String("api-url"),
+						TokenFile: c.String("tokenfile"),
+					},
+				}
+				err := a.VaultList()
 				if err != nil {
 					return err
 				}
@@ -29,7 +34,13 @@ var VaultCommands = cli.Command{
 			Aliases: []string{"t"},
 			Usage:   "Get all tags used in vault",
 			Action: func(c *cli.Context) error {
-				err := action.VaultTags(c.String("api-url"), c.String("tokenfile"))
+				a := action.Vault{
+					Config: action.GlobalConfig{
+						APIUrl:    c.String("api-url"),
+						TokenFile: c.String("tokenfile"),
+					},
+				}
+				err := a.VaultTags()
 				if err != nil {
 					return err
 				}
@@ -41,7 +52,13 @@ var VaultCommands = cli.Command{
 			Aliases: []string{"d"},
 			Usage:   "Get domain info",
 			Action: func(c *cli.Context) error {
-				err := action.VaultDomain(c.String("api-url"), c.String("tokenfile"))
+				a := action.Vault{
+					Config: action.GlobalConfig{
+						APIUrl:    c.String("api-url"),
+						TokenFile: c.String("tokenfile"),
+					},
+				}
+				err := a.VaultDomain()
 				if err != nil {
 					return err
 				}
@@ -49,15 +66,24 @@ var VaultCommands = cli.Command{
 			},
 		},
 		{
-			Name:      "folders",
-			Aliases:   []string{"f"},
-			Usage:     "Get folders by VAULT_ID argument",
-			ArgsUsage: "VAULT_ID",
+			Name:    "folders",
+			Aliases: []string{"f"},
+			Usage:   "Get folders by vault id",
+			Flags: []cli.Flag{
+				&cli.StringFlag{
+					Name:     "id",
+					Usage:    "Vault ID",
+					Required: true,
+				},
+			},
 			Action: func(c *cli.Context) error {
-				if c.Args().Len() != 1 {
-					return fmt.Errorf("ERROR: %s", "You must provide VAULT_ID argument")
+				a := action.Vault{
+					Config: action.GlobalConfig{
+						APIUrl:    c.String("api-url"),
+						TokenFile: c.String("tokenfile"),
+					},
 				}
-				err := action.VaultFolders(c.String("api-url"), c.String("tokenfile"), c.Args().Get(0))
+				err := a.VaultGetFolders(c.String("id"))
 				if err != nil {
 					return err
 				}
@@ -65,15 +91,24 @@ var VaultCommands = cli.Command{
 			},
 		},
 		{
-			Name:      "passwords",
-			Aliases:   []string{"p"},
-			Usage:     "Get passwords in vault root by VAULT_ID argument",
-			ArgsUsage: "VAULT_ID",
+			Name:    "passwords",
+			Aliases: []string{"p"},
+			Usage:   "Get passwords in vault root",
+			Flags: []cli.Flag{
+				&cli.StringFlag{
+					Name:     "id",
+					Usage:    "Vault ID",
+					Required: true,
+				},
+			},
 			Action: func(c *cli.Context) error {
-				if c.Args().Len() != 1 {
-					return fmt.Errorf("ERROR: %s", "You must provide VAULT_ID argument")
+				a := action.Vault{
+					Config: action.GlobalConfig{
+						APIUrl:    c.String("api-url"),
+						TokenFile: c.String("tokenfile"),
+					},
 				}
-				err := action.VaultPasswords(c.String("api-url"), c.String("tokenfile"), c.Args().Get(0))
+				err := a.VaultGetPasswords(c.String("id"))
 				if err != nil {
 					return err
 				}

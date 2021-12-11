@@ -28,11 +28,15 @@ var FolderCommands = cli.Command{
 				},
 			},
 			Action: func(c *cli.Context) error {
-				folder := action.Folder{
+				a := action.Folder{
 					Name:    c.String("name"),
 					VaultId: c.String("vault-id"),
+					Config: action.GlobalConfig{
+						APIUrl:    c.String("api-url"),
+						TokenFile: c.String("tokenfile"),
+					},
 				}
-				err := action.FolderAdd(c.String("api-url"), c.String("tokenfile"), folder)
+				err := a.FolderAdd()
 				if err != nil {
 					return err
 				}
@@ -51,7 +55,13 @@ var FolderCommands = cli.Command{
 				},
 			},
 			Action: func(c *cli.Context) error {
-				err := action.FolderGet(c.String("api-url"), c.String("tokenfile"), c.String("id"))
+				a := action.Folder{
+					Config: action.GlobalConfig{
+						APIUrl:    c.String("api-url"),
+						TokenFile: c.String("tokenfile"),
+					},
+				}
+				err := a.FolderGet(c.String("id"))
 				if err != nil {
 					return err
 				}
@@ -70,16 +80,19 @@ var FolderCommands = cli.Command{
 				},
 				&cli.StringFlag{
 					Name:     "name",
-					Value:    "name",
 					Usage:    "Folder new name",
 					Required: true,
 				},
 			},
 			Action: func(c *cli.Context) error {
-				folder := action.Folder{
+				a := action.Folder{
 					Name: c.String("name"),
+					Config: action.GlobalConfig{
+						APIUrl:    c.String("api-url"),
+						TokenFile: c.String("tokenfile"),
+					},
 				}
-				err := action.FolderEdit(c.String("api-url"), c.String("tokenfile"), c.String("id"), c.String("name"), folder)
+				err := a.FolderEdit(c.String("id"))
 				if err != nil {
 					return err
 				}
@@ -98,7 +111,13 @@ var FolderCommands = cli.Command{
 				},
 			},
 			Action: func(c *cli.Context) error {
-				err := action.FolderDelete(c.String("api-url"), c.String("tokenfile"), c.String("id"))
+				a := action.Folder{
+					Config: action.GlobalConfig{
+						APIUrl:    c.String("api-url"),
+						TokenFile: c.String("tokenfile"),
+					},
+				}
+				err := a.FolderDelete(c.String("id"))
 				if err != nil {
 					return err
 				}
@@ -117,7 +136,13 @@ var FolderCommands = cli.Command{
 				},
 			},
 			Action: func(c *cli.Context) error {
-				err := action.FolderGetPasswords(c.String("api-url"), c.String("tokenfile"), c.String("id"))
+				a := action.Folder{
+					Config: action.GlobalConfig{
+						APIUrl:    c.String("api-url"),
+						TokenFile: c.String("tokenfile"),
+					},
+				}
+				err := a.FolderGetPasswords(c.String("id"))
 				if err != nil {
 					return err
 				}
@@ -140,11 +165,15 @@ var FolderCommands = cli.Command{
 				},
 			},
 			Action: func(c *cli.Context) error {
-				query := action.FolderSearchQuery{
+				a := action.FolderSearchQuery{
 					Query:   c.String("query"),
 					VaultId: c.String("vault-id"),
+					Config: action.GlobalConfig{
+						APIUrl:    c.String("api-url"),
+						TokenFile: c.String("tokenfile"),
+					},
 				}
-				err := action.FolderSearch(c.String("api-url"), c.String("tokenfile"), query)
+				err := a.FolderSearch()
 				if err != nil {
 					return err
 				}
@@ -163,7 +192,13 @@ var FolderCommands = cli.Command{
 				},
 			},
 			Action: func(c *cli.Context) error {
-				err := action.FolderGetChildren(c.String("api-url"), c.String("tokenfile"), c.String("id"))
+				a := action.Folder{
+					Config: action.GlobalConfig{
+						APIUrl:    c.String("api-url"),
+						TokenFile: c.String("tokenfile"),
+					},
+				}
+				err := a.FolderGetChildren(c.String("id"))
 				if err != nil {
 					return err
 				}

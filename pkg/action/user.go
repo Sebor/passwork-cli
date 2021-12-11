@@ -8,14 +8,13 @@ var (
 	USER_URI_PREFIX = "/user"
 )
 
-func UserGet(url, tokenfile string) error {
-	token, err := getTokenFromFile(tokenfile)
-	if err != nil {
-		return fmt.Errorf("cannot get get token: %s", err.Error())
-	}
+type User struct {
+	Config GlobalConfig
+}
 
-	url = url + USER_URI_PREFIX + "/info"
-	_, err = callAPI(url, "GET", token, nil)
+func (u *User) UserGet() error {
+	url := u.Config.APIUrl + USER_URI_PREFIX + "/info"
+	_, err := callAPI(url, "GET", u.Config.ReadToken(), nil)
 	if err != nil {
 		return fmt.Errorf("cannot call API: %s", err.Error())
 	}

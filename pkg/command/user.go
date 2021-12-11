@@ -16,7 +16,13 @@ var UserCommands = cli.Command{
 			Aliases: []string{"g"},
 			Usage:   "Get user info",
 			Action: func(c *cli.Context) error {
-				err := action.UserGet(c.String("api-url"), c.String("tokenfile"))
+				a := action.User{
+					Config: action.GlobalConfig{
+						APIUrl:    c.String("api-url"),
+						TokenFile: c.String("tokenfile"),
+					},
+				}
+				err := a.UserGet()
 				if err != nil {
 					return err
 				}

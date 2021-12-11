@@ -21,6 +21,11 @@ type TokenData struct {
 	TokenExpiredAt int64  `json:"tokenExpiredAt"`
 }
 
+type GlobalConfig struct {
+	APIUrl    string
+	TokenFile string
+}
+
 func callAPI(url, method, token string, data io.Reader) ([]byte, error) {
 	client := &http.Client{
 		Timeout: time.Second * 5,
@@ -28,7 +33,7 @@ func callAPI(url, method, token string, data io.Reader) ([]byte, error) {
 
 	req, err := http.NewRequest(method, url, data)
 	if err != nil {
-		return nil, fmt.Errorf("ERROR: %s", err.Error())
+		return nil, fmt.Errorf("cannot create request: %s", err.Error())
 	}
 
 	req.Header.Add("Passwork-Auth", token)
@@ -36,14 +41,14 @@ func callAPI(url, method, token string, data io.Reader) ([]byte, error) {
 	req.Header.Add("Content-Type", "application/json")
 	resp, err := client.Do(req)
 	if err != nil {
-		return nil, fmt.Errorf("ERROR: %s", err.Error())
+		return nil, fmt.Errorf("cannot do request: %s", err.Error())
 	}
 
 	defer resp.Body.Close()
 
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return nil, fmt.Errorf("ERROR: %s", err.Error())
+		return nil, fmt.Errorf("cannot read response body: %s", err.Error())
 	}
 
 	fmt.Println(string(body))
@@ -51,23 +56,41 @@ func callAPI(url, method, token string, data io.Reader) ([]byte, error) {
 	return body, nil
 }
 
-func getTokenFromFile(tokenfile string) (string, error) {
+func (g *GlobalConfig) ReadToken() string {
 	homeDir, err := os.UserHomeDir()
 	if err != nil {
-		return "", fmt.Errorf("ERROR: %s", err.Error())
+		fmt.Println(err.Error())
+		os.Exit(1)
 	}
 
-	tokenFilepath := filepath.Join(homeDir, tokenfile)
+	tokenFilepath := filepath.Join(homeDir, g.TokenFile)
 	data, err := os.ReadFile(tokenFilepath)
 	if err != nil {
-		return "", fmt.Errorf("ERROR: %s", err.Error())
+		fmt.Println(err.Error())
+		os.Exit(1)
 	}
 
 	token := APIToken{}
 	err = json.Unmarshal(data, &token)
 	if err != nil {
-		return "", fmt.Errorf("ERROR: %s", err.Error())
+		fmt.Println(err.Error())
+		os.Exit(1)
 	}
 
-	return token.Data.Token, nil
+	return token.Data.Token
+}
+
+func (g *GlobalConfig) WriteToken(body []byte) {
+	homeDir, err := os.UserHomeDir()
+	if err != nil {
+		fmt.Println(err.Error())
+		os.Exit(1)
+	}
+
+	tokenFilepath := filepath.Join(homeDir, g.TokenFile)
+	err = os.WriteFile(tokenFilepath, body, 0600)
+	if err != nil {
+		fmt.Println(err.Error())
+		os.Exit(1)
+	}
 }
