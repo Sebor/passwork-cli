@@ -19,7 +19,7 @@ type Vault struct {
 }
 
 func (v *Vault) VaultList() error {
-	url := v.Config.APIUrl + VAULTS_URI_PREFIX + "/" + "list"
+	url := v.Config.APIUrl + VAULTS_URI_PREFIX + "/list"
 	_, err := callAPI(url, "GET", v.Config.ReadToken(), nil)
 	if err != nil {
 		return fmt.Errorf("cannot call API: %s", err.Error())
@@ -28,8 +28,8 @@ func (v *Vault) VaultList() error {
 	return nil
 }
 
-func (v *Vault) VaultTags() error {
-	url := v.Config.APIUrl + VAULTS_URI_PREFIX + "/" + "tags"
+func (v *Vault) VaultAllTags() error {
+	url := v.Config.APIUrl + VAULTS_URI_PREFIX + "/tags"
 	_, err := callAPI(url, "GET", v.Config.ReadToken(), nil)
 	if err != nil {
 		return fmt.Errorf("cannot call API: %s", err.Error())
@@ -39,7 +39,7 @@ func (v *Vault) VaultTags() error {
 }
 
 func (v *Vault) VaultDomain() error {
-	url := v.Config.APIUrl + VAULTS_URI_PREFIX + "/" + "domain"
+	url := v.Config.APIUrl + VAULTS_URI_PREFIX + "/domain"
 	_, err := callAPI(url, "GET", v.Config.ReadToken(), nil)
 	if err != nil {
 		return fmt.Errorf("cannot call API: %s", err.Error())
@@ -60,6 +60,26 @@ func (v *Vault) VaultGetFolders(id string) error {
 
 func (v *Vault) VaultGetPasswords(id string) error {
 	url := v.Config.APIUrl + VAULTS_URI_PREFIX + "/" + id + "/passwords"
+	_, err := callAPI(url, "GET", v.Config.ReadToken(), nil)
+	if err != nil {
+		return fmt.Errorf("cannot call API: %s", err.Error())
+	}
+
+	return nil
+}
+
+func (v *Vault) VaultGetFullInfo(id string) error {
+	url := v.Config.APIUrl + VAULTS_URI_PREFIX + "/" + id + "/fullInfo"
+	_, err := callAPI(url, "GET", v.Config.ReadToken(), nil)
+	if err != nil {
+		return fmt.Errorf("cannot call API: %s", err.Error())
+	}
+
+	return nil
+}
+
+func (v *Vault) VaultGetTags(id string) error {
+	url := v.Config.APIUrl + VAULTS_URI_PREFIX + "/" + id + "/tags"
 	_, err := callAPI(url, "GET", v.Config.ReadToken(), nil)
 	if err != nil {
 		return fmt.Errorf("cannot call API: %s", err.Error())

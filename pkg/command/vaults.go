@@ -30,9 +30,9 @@ var VaultCommands = cli.Command{
 			},
 		},
 		{
-			Name:    "tags",
-			Aliases: []string{"t"},
-			Usage:   "Get all tags used in vault",
+			Name:    "all-tags",
+			Aliases: []string{"at"},
+			Usage:   "Get all tags",
 			Action: func(c *cli.Context) error {
 				a := action.Vault{
 					Config: action.GlobalConfig{
@@ -40,7 +40,7 @@ var VaultCommands = cli.Command{
 						TokenFile: c.String("tokenfile"),
 					},
 				}
-				err := a.VaultTags()
+				err := a.VaultAllTags()
 				if err != nil {
 					return err
 				}
@@ -109,6 +109,56 @@ var VaultCommands = cli.Command{
 					},
 				}
 				err := a.VaultGetPasswords(c.String("id"))
+				if err != nil {
+					return err
+				}
+				return nil
+			},
+		},
+		{
+			Name:    "full-info",
+			Aliases: []string{"fi"},
+			Usage:   "Get folders and passwords in vault root",
+			Flags: []cli.Flag{
+				&cli.StringFlag{
+					Name:     "id",
+					Usage:    "Vault ID",
+					Required: true,
+				},
+			},
+			Action: func(c *cli.Context) error {
+				a := action.Vault{
+					Config: action.GlobalConfig{
+						APIUrl:    c.String("api-url"),
+						TokenFile: c.String("tokenfile"),
+					},
+				}
+				err := a.VaultGetFullInfo(c.String("id"))
+				if err != nil {
+					return err
+				}
+				return nil
+			},
+		},
+		{
+			Name:    "tags",
+			Aliases: []string{"t"},
+			Usage:   "Get all tags used in vault",
+			Flags: []cli.Flag{
+				&cli.StringFlag{
+					Name:     "id",
+					Usage:    "Vault ID",
+					Required: true,
+				},
+			},
+			Action: func(c *cli.Context) error {
+				a := action.Vault{
+					Config: action.GlobalConfig{
+						APIUrl:    c.String("api-url"),
+						TokenFile: c.String("tokenfile"),
+					},
+				}
+				err := a.VaultGetTags(c.String("id"))
 				if err != nil {
 					return err
 				}
