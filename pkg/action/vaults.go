@@ -9,21 +9,22 @@ var (
 )
 
 type Vault struct {
-	Name            string `json:"name"`
-	DomainId        string `json:"domainId"`
-	MPCrypted       string `json:"mpCrypted"`
-	PasswordHash    string `json:"passwordHash"`
-	Salt            string `json:"salt"`
-	PasswordCrypted string `json:"passwordCrypted"`
+	Name            string       `json:"name"`
+	DomainId        string       `json:"domainId"`
+	MPCrypted       string       `json:"mpCrypted"`
+	PasswordHash    string       `json:"passwordHash"`
+	Salt            string       `json:"salt"`
+	PasswordCrypted string       `json:"passwordCrypted"`
+	Config          GlobalCongig `json:"-"`
 }
 
-func VaultList(url, tokenfile string) error {
-	token, err := getTokenFromFile(tokenfile)
+func (v *Vault) VaultList() error {
+	token, err := getTokenFromFile(v.Config.TokenFile)
 	if err != nil {
-		return fmt.Errorf("cannot get get token: %s", err.Error())
+		return fmt.Errorf("cannot get token: %s", err.Error())
 	}
 
-	url = url + VAULTS_URI_PREFIX + "/" + "list"
+	url := v.Config.APIUrl + VAULTS_URI_PREFIX + "/" + "list"
 	_, err = callAPI(url, "GET", token, nil)
 	if err != nil {
 		return fmt.Errorf("cannot call API: %s", err.Error())
@@ -32,13 +33,13 @@ func VaultList(url, tokenfile string) error {
 	return nil
 }
 
-func VaultTags(url, tokenfile string) error {
-	token, err := getTokenFromFile(tokenfile)
+func (v *Vault) VaultTags() error {
+	token, err := getTokenFromFile(v.Config.TokenFile)
 	if err != nil {
-		return fmt.Errorf("cannot get get token: %s", err.Error())
+		return fmt.Errorf("cannot get token: %s", err.Error())
 	}
 
-	url = url + VAULTS_URI_PREFIX + "/" + "tags"
+	url := v.Config.APIUrl + VAULTS_URI_PREFIX + "/" + "tags"
 	_, err = callAPI(url, "GET", token, nil)
 	if err != nil {
 		return fmt.Errorf("cannot call API: %s", err.Error())
@@ -47,13 +48,13 @@ func VaultTags(url, tokenfile string) error {
 	return nil
 }
 
-func VaultDomain(url, tokenfile string) error {
-	token, err := getTokenFromFile(tokenfile)
+func (v *Vault) VaultDomain() error {
+	token, err := getTokenFromFile(v.Config.TokenFile)
 	if err != nil {
-		return fmt.Errorf("cannot get get token: %s", err.Error())
+		return fmt.Errorf("cannot get token: %s", err.Error())
 	}
 
-	url = url + VAULTS_URI_PREFIX + "/" + "domain"
+	url := v.Config.APIUrl + VAULTS_URI_PREFIX + "/" + "domain"
 	_, err = callAPI(url, "GET", token, nil)
 	if err != nil {
 		return fmt.Errorf("cannot call API: %s", err.Error())
@@ -62,13 +63,13 @@ func VaultDomain(url, tokenfile string) error {
 	return nil
 }
 
-func VaultFolders(url, tokenfile, vaultID string) error {
-	token, err := getTokenFromFile(tokenfile)
+func (v *Vault) VaultGetFolders(id string) error {
+	token, err := getTokenFromFile(v.Config.TokenFile)
 	if err != nil {
-		return fmt.Errorf("cannot get get token: %s", err.Error())
+		return fmt.Errorf("cannot get token: %s", err.Error())
 	}
 
-	url = url + VAULTS_URI_PREFIX + "/" + vaultID + "/folders"
+	url := v.Config.APIUrl + VAULTS_URI_PREFIX + "/" + id + "/folders"
 	_, err = callAPI(url, "GET", token, nil)
 	if err != nil {
 		return fmt.Errorf("cannot call API: %s", err.Error())
@@ -77,13 +78,13 @@ func VaultFolders(url, tokenfile, vaultID string) error {
 	return nil
 }
 
-func VaultPasswords(url, tokenfile, vaultID string) error {
-	token, err := getTokenFromFile(tokenfile)
+func (v *Vault) VaultGetPasswords(id string) error {
+	token, err := getTokenFromFile(v.Config.TokenFile)
 	if err != nil {
-		return fmt.Errorf("cannot get get token: %s", err.Error())
+		return fmt.Errorf("cannot get token: %s", err.Error())
 	}
 
-	url = url + VAULTS_URI_PREFIX + "/" + vaultID + "/passwords"
+	url := v.Config.APIUrl + VAULTS_URI_PREFIX + "/" + id + "/passwords"
 	_, err = callAPI(url, "GET", token, nil)
 	if err != nil {
 		return fmt.Errorf("cannot call API: %s", err.Error())

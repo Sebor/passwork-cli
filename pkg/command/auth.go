@@ -26,7 +26,14 @@ var AuthCommands = cli.Command{
 				},
 			},
 			Action: func(c *cli.Context) error {
-				err := action.AuthLogin(c.String("api-url"), c.String("api-key"), c.String("tokenfile"))
+				a := action.Auth{
+					APIkey: c.String("api-key"),
+					Config: action.GlobalCongig{
+						APIUrl:    c.String("api-url"),
+						TokenFile: c.String("tokenfile"),
+					},
+				}
+				err := a.AuthLogin()
 				if err != nil {
 					return err
 				}
@@ -38,7 +45,13 @@ var AuthCommands = cli.Command{
 			Aliases: []string{"lo"},
 			Usage:   "Close session",
 			Action: func(c *cli.Context) error {
-				err := action.AuthLogout(c.String("api-url"), c.String("tokenfile"))
+				a := action.Auth{
+					Config: action.GlobalCongig{
+						APIUrl:    c.String("api-url"),
+						TokenFile: c.String("tokenfile"),
+					},
+				}
+				err := a.AuthLogout()
 				if err != nil {
 					return err
 				}

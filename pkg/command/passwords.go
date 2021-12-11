@@ -33,7 +33,7 @@ var PasswordCommands = cli.Command{
 				},
 				&cli.StringFlag{
 					Name:     "password",
-					Usage:    "Password",
+					Usage:    "Password value",
 					Required: true,
 				},
 				&cli.StringFlag{
@@ -64,7 +64,7 @@ var PasswordCommands = cli.Command{
 				},
 			},
 			Action: func(c *cli.Context) error {
-				password := action.Password{
+				a := action.Password{
 					Name:            c.String("name"),
 					Login:           c.String("login"),
 					CryptedPassword: base64.StdEncoding.EncodeToString([]byte(c.String("password"))),
@@ -75,8 +75,12 @@ var PasswordCommands = cli.Command{
 					MasterHash:      c.String("master-hash"),
 					Color:           c.Int("color"),
 					Tags:            c.StringSlice("tags"),
+					Config: action.GlobalCongig{
+						APIUrl:    c.String("api-url"),
+						TokenFile: c.String("tokenfile"),
+					},
 				}
-				err := action.PasswordAdd(c.String("api-url"), c.String("tokenfile"), password)
+				err := a.PasswordAdd()
 				if err != nil {
 					return err
 				}
@@ -107,13 +111,17 @@ var PasswordCommands = cli.Command{
 				},
 			},
 			Action: func(c *cli.Context) error {
-				query := action.PasswordSearchQuery{
+				a := action.PasswordSearchQuery{
 					Query:   c.String("query"),
 					VaultId: c.String("vault-id"),
 					Colors:  c.IntSlice("colors"),
 					Tags:    c.StringSlice("tags"),
+					Config: action.GlobalCongig{
+						APIUrl:    c.String("api-url"),
+						TokenFile: c.String("tokenfile"),
+					},
 				}
-				err := action.PasswordSearch(c.String("api-url"), c.String("tokenfile"), query)
+				err := a.PasswordSearch()
 				if err != nil {
 					return err
 				}
@@ -132,7 +140,13 @@ var PasswordCommands = cli.Command{
 				},
 			},
 			Action: func(c *cli.Context) error {
-				err := action.PasswordGet(c.String("api-url"), c.String("tokenfile"), c.String("id"))
+				a := action.Password{
+					Config: action.GlobalCongig{
+						APIUrl:    c.String("api-url"),
+						TokenFile: c.String("tokenfile"),
+					},
+				}
+				err := a.PasswordGet(c.String("id"))
 				if err != nil {
 					return err
 				}
@@ -151,7 +165,13 @@ var PasswordCommands = cli.Command{
 				},
 			},
 			Action: func(c *cli.Context) error {
-				err := action.PasswordDelete(c.String("api-url"), c.String("tokenfile"), c.String("id"))
+				a := action.Password{
+					Config: action.GlobalCongig{
+						APIUrl:    c.String("api-url"),
+						TokenFile: c.String("tokenfile"),
+					},
+				}
+				err := a.PasswordDelete(c.String("id"))
 				if err != nil {
 					return err
 				}
@@ -210,7 +230,7 @@ var PasswordCommands = cli.Command{
 				},
 			},
 			Action: func(c *cli.Context) error {
-				password := action.Password{
+				a := action.Password{
 					Name:            c.String("name"),
 					Login:           c.String("login"),
 					CryptedPassword: base64.StdEncoding.EncodeToString([]byte(c.String("password"))),
@@ -221,8 +241,12 @@ var PasswordCommands = cli.Command{
 					MasterHash:      c.String("master-hash"),
 					Color:           c.Int("color"),
 					Tags:            c.StringSlice("tags"),
+					Config: action.GlobalCongig{
+						APIUrl:    c.String("api-url"),
+						TokenFile: c.String("tokenfile"),
+					},
 				}
-				err := action.PasswordEdit(c.String("api-url"), c.String("tokenfile"), c.String("id"), password)
+				err := a.PasswordEdit(c.String("id"))
 				if err != nil {
 					return err
 				}

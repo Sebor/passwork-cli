@@ -11,27 +11,29 @@ var (
 )
 
 type Folder struct {
-	Name    string `json:"name"`
-	VaultId string `json:"vaultId,omitempty"`
+	Name    string       `json:"name"`
+	VaultId string       `json:"vaultId,omitempty"`
+	Config  GlobalCongig `json:"-"`
 }
 
 type FolderSearchQuery struct {
-	Query   string `json:"query"`
-	VaultId string `json:"vaultId,omitempty"`
+	Query   string       `json:"query"`
+	VaultId string       `json:"vaultId,omitempty"`
+	Config  GlobalCongig `json:"-"`
 }
 
-func FolderAdd(url, tokenfile string, folder Folder) error {
-	token, err := getTokenFromFile(tokenfile)
+func (f *Folder) FolderAdd() error {
+	token, err := getTokenFromFile(f.Config.TokenFile)
 	if err != nil {
-		return fmt.Errorf("cannot get get token: %s", err.Error())
+		return fmt.Errorf("cannot get token: %s", err.Error())
 	}
 
-	data, err := json.Marshal(folder)
+	data, err := json.Marshal(f)
 	if err != nil {
 		return fmt.Errorf("cannot dump data: %s", err.Error())
 	}
 
-	url = url + FOLDERS_URI_PREFIX
+	url := f.Config.APIUrl + FOLDERS_URI_PREFIX
 	_, err = callAPI(url, "POST", token, bytes.NewReader(data))
 	if err != nil {
 		return fmt.Errorf("cannot call API: %s", err.Error())
@@ -40,13 +42,13 @@ func FolderAdd(url, tokenfile string, folder Folder) error {
 	return nil
 }
 
-func FolderGet(url, tokenfile, id string) error {
-	token, err := getTokenFromFile(tokenfile)
+func (f *Folder) FolderGet(id string) error {
+	token, err := getTokenFromFile(f.Config.TokenFile)
 	if err != nil {
-		return fmt.Errorf("cannot get get token: %s", err.Error())
+		return fmt.Errorf("cannot get token: %s", err.Error())
 	}
 
-	url = url + FOLDERS_URI_PREFIX + "/" + id
+	url := f.Config.APIUrl + FOLDERS_URI_PREFIX + "/" + id
 	_, err = callAPI(url, "GET", token, nil)
 	if err != nil {
 		return fmt.Errorf("cannot call API: %s", err.Error())
@@ -55,19 +57,18 @@ func FolderGet(url, tokenfile, id string) error {
 	return nil
 }
 
-func FolderEdit(url, tokenfile, id, name string, folder Folder) error {
-	token, err := getTokenFromFile(tokenfile)
+func (f *Folder) FolderEdit(id string) error {
+	token, err := getTokenFromFile(f.Config.TokenFile)
 	if err != nil {
-		return fmt.Errorf("cannot get get token: %s", err.Error())
+		return fmt.Errorf("cannot get token: %s", err.Error())
 	}
-
-	data, err := json.Marshal(folder)
+	data, err := json.Marshal(f)
 	if err != nil {
 		return fmt.Errorf("cannot dump data: %s", err.Error())
 	}
 
-	url = url + FOLDERS_URI_PREFIX + "/" + id
-	_, err = callAPI(url, "POST", token, bytes.NewReader(data))
+	url := f.Config.APIUrl + FOLDERS_URI_PREFIX + "/" + id
+	_, err = callAPI(url, "PUT", token, bytes.NewReader(data))
 	if err != nil {
 		return fmt.Errorf("cannot call API: %s", err.Error())
 	}
@@ -75,13 +76,13 @@ func FolderEdit(url, tokenfile, id, name string, folder Folder) error {
 	return nil
 }
 
-func FolderDelete(url, tokenfile, id string) error {
-	token, err := getTokenFromFile(tokenfile)
+func (f *Folder) FolderDelete(id string) error {
+	token, err := getTokenFromFile(f.Config.TokenFile)
 	if err != nil {
-		return fmt.Errorf("cannot get get token: %s", err.Error())
+		return fmt.Errorf("cannot get token: %s", err.Error())
 	}
 
-	url = url + VAULTS_URI_PREFIX + "/" + id
+	url := f.Config.APIUrl + FOLDERS_URI_PREFIX + "/" + id
 	_, err = callAPI(url, "DELETE", token, nil)
 	if err != nil {
 		return fmt.Errorf("cannot call API: %s", err.Error())
@@ -90,13 +91,13 @@ func FolderDelete(url, tokenfile, id string) error {
 	return nil
 }
 
-func FolderGetPasswords(url, tokenfile, id string) error {
-	token, err := getTokenFromFile(tokenfile)
+func (f *Folder) FolderGetPasswords(id string) error {
+	token, err := getTokenFromFile(f.Config.TokenFile)
 	if err != nil {
-		return fmt.Errorf("cannot get get token: %s", err.Error())
+		return fmt.Errorf("cannot get token: %s", err.Error())
 	}
 
-	url = url + FOLDERS_URI_PREFIX + "/" + id + "/passwords"
+	url := f.Config.APIUrl + FOLDERS_URI_PREFIX + "/" + id + "/passwords"
 	_, err = callAPI(url, "GET", token, nil)
 	if err != nil {
 		return fmt.Errorf("cannot call API: %s", err.Error())
@@ -105,18 +106,18 @@ func FolderGetPasswords(url, tokenfile, id string) error {
 	return nil
 }
 
-func FolderSearch(url, tokenfile string, query FolderSearchQuery) error {
-	token, err := getTokenFromFile(tokenfile)
+func (f *FolderSearchQuery) FolderSearch() error {
+	token, err := getTokenFromFile(f.Config.TokenFile)
 	if err != nil {
-		return fmt.Errorf("cannot get get token: %s", err.Error())
+		return fmt.Errorf("cannot get token: %s", err.Error())
 	}
 
-	data, err := json.Marshal(query)
+	data, err := json.Marshal(f)
 	if err != nil {
 		return fmt.Errorf("cannot dump data: %s", err.Error())
 	}
 
-	url = url + VAULTS_URI_PREFIX + "/search"
+	url := f.Config.APIUrl + FOLDERS_URI_PREFIX + "/search"
 	_, err = callAPI(url, "POST", token, bytes.NewReader(data))
 	if err != nil {
 		return fmt.Errorf("cannot call API: %s", err.Error())
@@ -125,13 +126,13 @@ func FolderSearch(url, tokenfile string, query FolderSearchQuery) error {
 	return nil
 }
 
-func FolderGetChildren(url, tokenfile, id string) error {
-	token, err := getTokenFromFile(tokenfile)
+func (f *Folder) FolderGetChildren(id string) error {
+	token, err := getTokenFromFile(f.Config.TokenFile)
 	if err != nil {
-		return fmt.Errorf("cannot get get token: %s", err.Error())
+		return fmt.Errorf("cannot get token: %s", err.Error())
 	}
 
-	url = url + FOLDERS_URI_PREFIX + "/" + id + "/children"
+	url := f.Config.APIUrl + FOLDERS_URI_PREFIX + "/" + id + "/children"
 	_, err = callAPI(url, "GET", token, nil)
 	if err != nil {
 		return fmt.Errorf("cannot call API: %s", err.Error())
