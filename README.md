@@ -50,3 +50,4 @@ go build cmd/passwork/passwork.go
 * Add auto login feature when access token is expired
 * Add bash/zsh completion
 * Add github actions
+* Add handling of http response code
