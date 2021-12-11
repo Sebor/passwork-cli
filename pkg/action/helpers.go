@@ -21,7 +21,7 @@ type TokenData struct {
 	TokenExpiredAt int64  `json:"tokenExpiredAt"`
 }
 
-type GlobalCongig struct {
+type GlobalConfig struct {
 	APIUrl    string
 	TokenFile string
 }
@@ -48,7 +48,7 @@ func callAPI(url, method, token string, data io.Reader) ([]byte, error) {
 
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return nil, fmt.Errorf("cannot read responce body: %s", err.Error())
+		return nil, fmt.Errorf("cannot read response body: %s", err.Error())
 	}
 
 	fmt.Println(string(body))
@@ -56,23 +56,41 @@ func callAPI(url, method, token string, data io.Reader) ([]byte, error) {
 	return body, nil
 }
 
-func getTokenFromFile(tokenfile string) (string, error) {
+func (g *GlobalConfig) ReadToken() string {
 	homeDir, err := os.UserHomeDir()
 	if err != nil {
-		return "", fmt.Errorf("cannot get user home directory: %s", err.Error())
+		fmt.Println(err.Error())
+		os.Exit(1)
 	}
 
-	tokenFilepath := filepath.Join(homeDir, tokenfile)
+	tokenFilepath := filepath.Join(homeDir, g.TokenFile)
 	data, err := os.ReadFile(tokenFilepath)
 	if err != nil {
-		return "", fmt.Errorf("cannot read tokenfile: %s", err.Error())
+		fmt.Println(err.Error())
+		os.Exit(1)
 	}
 
 	token := APIToken{}
 	err = json.Unmarshal(data, &token)
 	if err != nil {
-		return "", fmt.Errorf("cannot unmarshal token data: %s", err.Error())
+		fmt.Println(err.Error())
+		os.Exit(1)
 	}
 
-	return token.Data.Token, nil
+	return token.Data.Token
+}
+
+func (g *GlobalConfig) WriteToken(body []byte) {
+	homeDir, err := os.UserHomeDir()
+	if err != nil {
+		fmt.Println(err.Error())
+		os.Exit(1)
+	}
+
+	tokenFilepath := filepath.Join(homeDir, g.TokenFile)
+	err = os.WriteFile(tokenFilepath, body, 0600)
+	if err != nil {
+		fmt.Println(err.Error())
+		os.Exit(1)
+	}
 }

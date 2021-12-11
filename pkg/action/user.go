@@ -9,17 +9,12 @@ var (
 )
 
 type User struct {
-	Config GlobalCongig
+	Config GlobalConfig
 }
 
 func (u *User) UserGet() error {
-	token, err := getTokenFromFile(u.Config.TokenFile)
-	if err != nil {
-		return fmt.Errorf("cannot get token: %s", err.Error())
-	}
-
 	url := u.Config.APIUrl + USER_URI_PREFIX + "/info"
-	_, err = callAPI(url, "GET", token, nil)
+	_, err := callAPI(url, "GET", u.Config.ReadToken(), nil)
 	if err != nil {
 		return fmt.Errorf("cannot call API: %s", err.Error())
 	}

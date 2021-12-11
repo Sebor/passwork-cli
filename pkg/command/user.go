@@ -17,7 +17,7 @@ var UserCommands = cli.Command{
 			Usage:   "Get user info",
 			Action: func(c *cli.Context) error {
 				a := action.User{
-					Config: action.GlobalCongig{
+					Config: action.GlobalConfig{
 						APIUrl:    c.String("api-url"),
 						TokenFile: c.String("tokenfile"),
 					},

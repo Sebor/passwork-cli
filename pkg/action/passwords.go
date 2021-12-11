@@ -21,7 +21,7 @@ type Password struct {
 	VaultId         string       `json:"vaultId,omitempty"`
 	Color           int          `json:"color,omitempty"`
 	Tags            []string     `json:"tags,omitempty"`
-	Config          GlobalCongig `json:"-"`
+	Config          GlobalConfig `json:"-"`
 }
 
 type PasswordSearchQuery struct {
@@ -29,22 +29,17 @@ type PasswordSearchQuery struct {
 	VaultId string       `json:"vaultId,omitempty"`
 	Colors  []int        `json:"colors,omitempty"`
 	Tags    []string     `json:"tags,omitempty"`
-	Config  GlobalCongig `json:"-"`
+	Config  GlobalConfig `json:"-"`
 }
 
 func (p *Password) PasswordAdd() error {
-	token, err := getTokenFromFile(p.Config.TokenFile)
-	if err != nil {
-		return fmt.Errorf("cannot get token: %s", err.Error())
-	}
-
 	data, err := json.Marshal(p)
 	if err != nil {
 		return fmt.Errorf("cannot dump data: %s", err.Error())
 	}
 
 	url := p.Config.APIUrl + PASSWORDS_URI_PREFIX
-	_, err = callAPI(url, "POST", token, bytes.NewReader(data))
+	_, err = callAPI(url, "POST", p.Config.ReadToken(), bytes.NewReader(data))
 	if err != nil {
 		return fmt.Errorf("cannot call API: %s", err.Error())
 	}
@@ -53,13 +48,8 @@ func (p *Password) PasswordAdd() error {
 }
 
 func (p *Password) PasswordGet(id string) error {
-	token, err := getTokenFromFile(p.Config.TokenFile)
-	if err != nil {
-		return fmt.Errorf("cannot get token: %s", err.Error())
-	}
-
 	url := p.Config.APIUrl + PASSWORDS_URI_PREFIX + "/" + id
-	_, err = callAPI(url, "GET", token, nil)
+	_, err := callAPI(url, "GET", p.Config.ReadToken(), nil)
 	if err != nil {
 		return fmt.Errorf("cannot call API: %s", err.Error())
 	}
@@ -68,13 +58,8 @@ func (p *Password) PasswordGet(id string) error {
 }
 
 func (p *Password) PasswordDelete(id string) error {
-	token, err := getTokenFromFile(p.Config.TokenFile)
-	if err != nil {
-		return fmt.Errorf("cannot get token: %s", err.Error())
-	}
-
 	url := p.Config.APIUrl + PASSWORDS_URI_PREFIX + "/" + id
-	_, err = callAPI(url, "DELETE", token, nil)
+	_, err := callAPI(url, "DELETE", p.Config.ReadToken(), nil)
 	if err != nil {
 		return fmt.Errorf("cannot call API: %s", err.Error())
 	}
@@ -83,18 +68,13 @@ func (p *Password) PasswordDelete(id string) error {
 }
 
 func (p *PasswordSearchQuery) PasswordSearch() error {
-	token, err := getTokenFromFile(p.Config.TokenFile)
-	if err != nil {
-		return fmt.Errorf("cannot get token: %s", err.Error())
-	}
-
 	data, err := json.Marshal(p)
 	if err != nil {
 		return fmt.Errorf("ERROR: %s", err.Error())
 	}
 
 	url := p.Config.APIUrl + PASSWORDS_URI_PREFIX + "/search"
-	_, err = callAPI(url, "POST", token, bytes.NewReader(data))
+	_, err = callAPI(url, "POST", p.Config.ReadToken(), bytes.NewReader(data))
 	if err != nil {
 		return fmt.Errorf("cannot call API: %s", err.Error())
 	}
@@ -103,18 +83,13 @@ func (p *PasswordSearchQuery) PasswordSearch() error {
 }
 
 func (p *Password) PasswordEdit(id string) error {
-	token, err := getTokenFromFile(p.Config.TokenFile)
-	if err != nil {
-		return fmt.Errorf("cannot get token: %s", err.Error())
-	}
-
 	data, err := json.Marshal(p)
 	if err != nil {
 		return fmt.Errorf("ERROR: %s", err.Error())
 	}
 
 	url := p.Config.APIUrl + PASSWORDS_URI_PREFIX + "/" + id
-	_, err = callAPI(url, "PUT", token, bytes.NewReader(data))
+	_, err = callAPI(url, "PUT", p.Config.ReadToken(), bytes.NewReader(data))
 	if err != nil {
 		return fmt.Errorf("cannot call API: %s", err.Error())
 	}

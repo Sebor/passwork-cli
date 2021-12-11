@@ -15,17 +15,12 @@ type Vault struct {
 	PasswordHash    string       `json:"passwordHash"`
 	Salt            string       `json:"salt"`
 	PasswordCrypted string       `json:"passwordCrypted"`
-	Config          GlobalCongig `json:"-"`
+	Config          GlobalConfig `json:"-"`
 }
 
 func (v *Vault) VaultList() error {
-	token, err := getTokenFromFile(v.Config.TokenFile)
-	if err != nil {
-		return fmt.Errorf("cannot get token: %s", err.Error())
-	}
-
 	url := v.Config.APIUrl + VAULTS_URI_PREFIX + "/" + "list"
-	_, err = callAPI(url, "GET", token, nil)
+	_, err := callAPI(url, "GET", v.Config.ReadToken(), nil)
 	if err != nil {
 		return fmt.Errorf("cannot call API: %s", err.Error())
 	}
@@ -34,13 +29,8 @@ func (v *Vault) VaultList() error {
 }
 
 func (v *Vault) VaultTags() error {
-	token, err := getTokenFromFile(v.Config.TokenFile)
-	if err != nil {
-		return fmt.Errorf("cannot get token: %s", err.Error())
-	}
-
 	url := v.Config.APIUrl + VAULTS_URI_PREFIX + "/" + "tags"
-	_, err = callAPI(url, "GET", token, nil)
+	_, err := callAPI(url, "GET", v.Config.ReadToken(), nil)
 	if err != nil {
 		return fmt.Errorf("cannot call API: %s", err.Error())
 	}
@@ -49,13 +39,8 @@ func (v *Vault) VaultTags() error {
 }
 
 func (v *Vault) VaultDomain() error {
-	token, err := getTokenFromFile(v.Config.TokenFile)
-	if err != nil {
-		return fmt.Errorf("cannot get token: %s", err.Error())
-	}
-
 	url := v.Config.APIUrl + VAULTS_URI_PREFIX + "/" + "domain"
-	_, err = callAPI(url, "GET", token, nil)
+	_, err := callAPI(url, "GET", v.Config.ReadToken(), nil)
 	if err != nil {
 		return fmt.Errorf("cannot call API: %s", err.Error())
 	}
@@ -64,13 +49,8 @@ func (v *Vault) VaultDomain() error {
 }
 
 func (v *Vault) VaultGetFolders(id string) error {
-	token, err := getTokenFromFile(v.Config.TokenFile)
-	if err != nil {
-		return fmt.Errorf("cannot get token: %s", err.Error())
-	}
-
 	url := v.Config.APIUrl + VAULTS_URI_PREFIX + "/" + id + "/folders"
-	_, err = callAPI(url, "GET", token, nil)
+	_, err := callAPI(url, "GET", v.Config.ReadToken(), nil)
 	if err != nil {
 		return fmt.Errorf("cannot call API: %s", err.Error())
 	}
@@ -79,13 +59,8 @@ func (v *Vault) VaultGetFolders(id string) error {
 }
 
 func (v *Vault) VaultGetPasswords(id string) error {
-	token, err := getTokenFromFile(v.Config.TokenFile)
-	if err != nil {
-		return fmt.Errorf("cannot get token: %s", err.Error())
-	}
-
 	url := v.Config.APIUrl + VAULTS_URI_PREFIX + "/" + id + "/passwords"
-	_, err = callAPI(url, "GET", token, nil)
+	_, err := callAPI(url, "GET", v.Config.ReadToken(), nil)
 	if err != nil {
 		return fmt.Errorf("cannot call API: %s", err.Error())
 	}

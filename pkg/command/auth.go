@@ -28,7 +28,7 @@ var AuthCommands = cli.Command{
 			Action: func(c *cli.Context) error {
 				a := action.Auth{
 					APIkey: c.String("api-key"),
-					Config: action.GlobalCongig{
+					Config: action.GlobalConfig{
 						APIUrl:    c.String("api-url"),
 						TokenFile: c.String("tokenfile"),
 					},
@@ -46,7 +46,7 @@ var AuthCommands = cli.Command{
 			Usage:   "Close session",
 			Action: func(c *cli.Context) error {
 				a := action.Auth{
-					Config: action.GlobalCongig{
+					Config: action.GlobalConfig{
 						APIUrl:    c.String("api-url"),
 						TokenFile: c.String("tokenfile"),
 					},

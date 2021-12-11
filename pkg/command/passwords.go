@@ -75,7 +75,7 @@ var PasswordCommands = cli.Command{
 					MasterHash:      c.String("master-hash"),
 					Color:           c.Int("color"),
 					Tags:            c.StringSlice("tags"),
-					Config: action.GlobalCongig{
+					Config: action.GlobalConfig{
 						APIUrl:    c.String("api-url"),
 						TokenFile: c.String("tokenfile"),
 					},
@@ -116,7 +116,7 @@ var PasswordCommands = cli.Command{
 					VaultId: c.String("vault-id"),
 					Colors:  c.IntSlice("colors"),
 					Tags:    c.StringSlice("tags"),
-					Config: action.GlobalCongig{
+					Config: action.GlobalConfig{
 						APIUrl:    c.String("api-url"),
 						TokenFile: c.String("tokenfile"),
 					},
@@ -141,7 +141,7 @@ var PasswordCommands = cli.Command{
 			},
 			Action: func(c *cli.Context) error {
 				a := action.Password{
-					Config: action.GlobalCongig{
+					Config: action.GlobalConfig{
 						APIUrl:    c.String("api-url"),
 						TokenFile: c.String("tokenfile"),
 					},
@@ -166,7 +166,7 @@ var PasswordCommands = cli.Command{
 			},
 			Action: func(c *cli.Context) error {
 				a := action.Password{
-					Config: action.GlobalCongig{
+					Config: action.GlobalConfig{
 						APIUrl:    c.String("api-url"),
 						TokenFile: c.String("tokenfile"),
 					},
@@ -241,7 +241,7 @@ var PasswordCommands = cli.Command{
 					MasterHash:      c.String("master-hash"),
 					Color:           c.Int("color"),
 					Tags:            c.StringSlice("tags"),
-					Config: action.GlobalCongig{
+					Config: action.GlobalConfig{
 						APIUrl:    c.String("api-url"),
 						TokenFile: c.String("tokenfile"),
 					},

@@ -17,7 +17,7 @@ var VaultCommands = cli.Command{
 			Usage:   "Get list of user vaults",
 			Action: func(c *cli.Context) error {
 				a := action.Vault{
-					Config: action.GlobalCongig{
+					Config: action.GlobalConfig{
 						APIUrl:    c.String("api-url"),
 						TokenFile: c.String("tokenfile"),
 					},
@@ -35,7 +35,7 @@ var VaultCommands = cli.Command{
 			Usage:   "Get all tags used in vault",
 			Action: func(c *cli.Context) error {
 				a := action.Vault{
-					Config: action.GlobalCongig{
+					Config: action.GlobalConfig{
 						APIUrl:    c.String("api-url"),
 						TokenFile: c.String("tokenfile"),
 					},
@@ -53,7 +53,7 @@ var VaultCommands = cli.Command{
 			Usage:   "Get domain info",
 			Action: func(c *cli.Context) error {
 				a := action.Vault{
-					Config: action.GlobalCongig{
+					Config: action.GlobalConfig{
 						APIUrl:    c.String("api-url"),
 						TokenFile: c.String("tokenfile"),
 					},
@@ -78,7 +78,7 @@ var VaultCommands = cli.Command{
 			},
 			Action: func(c *cli.Context) error {
 				a := action.Vault{
-					Config: action.GlobalCongig{
+					Config: action.GlobalConfig{
 						APIUrl:    c.String("api-url"),
 						TokenFile: c.String("tokenfile"),
 					},
@@ -103,7 +103,7 @@ var VaultCommands = cli.Command{
 			},
 			Action: func(c *cli.Context) error {
 				a := action.Vault{
-					Config: action.GlobalCongig{
+					Config: action.GlobalConfig{
 						APIUrl:    c.String("api-url"),
 						TokenFile: c.String("tokenfile"),
 					},

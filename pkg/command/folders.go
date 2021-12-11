@@ -31,7 +31,7 @@ var FolderCommands = cli.Command{
 				a := action.Folder{
 					Name:    c.String("name"),
 					VaultId: c.String("vault-id"),
-					Config: action.GlobalCongig{
+					Config: action.GlobalConfig{
 						APIUrl:    c.String("api-url"),
 						TokenFile: c.String("tokenfile"),
 					},
@@ -56,7 +56,7 @@ var FolderCommands = cli.Command{
 			},
 			Action: func(c *cli.Context) error {
 				a := action.Folder{
-					Config: action.GlobalCongig{
+					Config: action.GlobalConfig{
 						APIUrl:    c.String("api-url"),
 						TokenFile: c.String("tokenfile"),
 					},
@@ -87,7 +87,7 @@ var FolderCommands = cli.Command{
 			Action: func(c *cli.Context) error {
 				a := action.Folder{
 					Name: c.String("name"),
-					Config: action.GlobalCongig{
+					Config: action.GlobalConfig{
 						APIUrl:    c.String("api-url"),
 						TokenFile: c.String("tokenfile"),
 					},
@@ -112,7 +112,7 @@ var FolderCommands = cli.Command{
 			},
 			Action: func(c *cli.Context) error {
 				a := action.Folder{
-					Config: action.GlobalCongig{
+					Config: action.GlobalConfig{
 						APIUrl:    c.String("api-url"),
 						TokenFile: c.String("tokenfile"),
 					},
@@ -137,7 +137,7 @@ var FolderCommands = cli.Command{
 			},
 			Action: func(c *cli.Context) error {
 				a := action.Folder{
-					Config: action.GlobalCongig{
+					Config: action.GlobalConfig{
 						APIUrl:    c.String("api-url"),
 						TokenFile: c.String("tokenfile"),
 					},
@@ -168,7 +168,7 @@ var FolderCommands = cli.Command{
 				a := action.FolderSearchQuery{
 					Query:   c.String("query"),
 					VaultId: c.String("vault-id"),
-					Config: action.GlobalCongig{
+					Config: action.GlobalConfig{
 						APIUrl:    c.String("api-url"),
 						TokenFile: c.String("tokenfile"),
 					},
@@ -193,7 +193,7 @@ var FolderCommands = cli.Command{
 			},
 			Action: func(c *cli.Context) error {
 				a := action.Folder{
-					Config: action.GlobalCongig{
+					Config: action.GlobalConfig{
 						APIUrl:    c.String("api-url"),
 						TokenFile: c.String("tokenfile"),
 					},
