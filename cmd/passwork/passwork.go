@@ -66,11 +66,12 @@ func main() {
 	}
 
 	app := &cli.App{
-		Usage:    AppUsage,
-		Version:  AppVersion,
-		Authors:  AppAuthors,
-		Flags:    flags,
-		Commands: command.Commands,
+		Usage:                AppUsage,
+		Version:              AppVersion,
+		Authors:              AppAuthors,
+		Flags:                flags,
+		Commands:             command.Commands,
+		EnableBashCompletion: true,
 	}
 
 	err := app.Run(os.Args)
