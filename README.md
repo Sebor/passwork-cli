@@ -29,6 +29,7 @@ There is no API public documentation but official js [client](<https://github.co
   * get favorite
   * make favorite
   * make unfavorite
+  * search by url
 * Users
   * get
 * Vaults

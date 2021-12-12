@@ -423,5 +423,31 @@ var PasswordCommands = cli.Command{
 				return nil
 			},
 		},
+		{
+			Name:    "search-url",
+			Aliases: []string{"su"},
+			Usage:   "Search passwords by full URL ",
+			Flags: []cli.Flag{
+				&cli.StringFlag{
+					Name:     "url",
+					Usage:    "Password URL",
+					Required: true,
+				},
+			},
+			Action: func(c *cli.Context) error {
+				a := action.Password{
+					Url: c.String("url"),
+					Config: action.GlobalConfig{
+						APIUrl:    c.String("api-url"),
+						TokenFile: c.String("tokenfile"),
+					},
+				}
+				err := a.PasswordSearchByURL()
+				if err != nil {
+					return err
+				}
+				return nil
+			},
+		},
 	},
 }

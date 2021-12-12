@@ -178,3 +178,18 @@ func (p *Password) PasswordMakeUnFavorite(id string) error {
 
 	return nil
 }
+
+func (p *Password) PasswordSearchByURL() error {
+	data, err := json.Marshal(p)
+	if err != nil {
+		return fmt.Errorf("cannot dump data: %s", err.Error())
+	}
+
+	url := p.Config.APIUrl + PASSWORDS_URI_PREFIX + "/searchByUrl"
+	_, err = callAPI(url, "POST", p.Config.ReadToken(), bytes.NewReader(data))
+	if err != nil {
+		return fmt.Errorf("cannot call API: %s", err.Error())
+	}
+
+	return nil
+}
