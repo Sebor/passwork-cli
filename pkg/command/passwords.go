@@ -295,5 +295,47 @@ var PasswordCommands = cli.Command{
 				return nil
 			},
 		},
+		{
+			Name:    "move",
+			Aliases: []string{"m"},
+			Usage:   "Move password to another vault/folder",
+			Flags: []cli.Flag{
+				&cli.StringFlag{
+					Name:     "id",
+					Usage:    "Password ID",
+					Required: true,
+				},
+				&cli.StringFlag{
+					Name:     "to-folder-id",
+					Usage:    "Password destination Folder ID",
+					Required: true,
+				},
+				&cli.StringFlag{
+					Name:     "to-vault-id",
+					Usage:    "Password destination Vault ID",
+					Required: true,
+				},
+				&cli.StringFlag{
+					Name:  "password",
+					Usage: "Password value. Will be EMPTY if omitted",
+				},
+			},
+			Action: func(c *cli.Context) error {
+				a := action.Password{
+					VaultTo:         c.String("to-vault-id"),
+					FolderTo:        c.String("to-folder-id"),
+					CryptedPassword: base64.StdEncoding.EncodeToString([]byte(c.String("password"))),
+					Config: action.GlobalConfig{
+						APIUrl:    c.String("api-url"),
+						TokenFile: c.String("tokenfile"),
+					},
+				}
+				err := a.PasswordMove(c.String("id"))
+				if err != nil {
+					return err
+				}
+				return nil
+			},
+		},
 	},
 }
