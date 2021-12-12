@@ -355,5 +355,73 @@ var PasswordCommands = cli.Command{
 				return nil
 			},
 		},
+		{
+			Name:    "get-favorite",
+			Aliases: []string{"gf"},
+			Usage:   "Get favorite passwords",
+			Action: func(c *cli.Context) error {
+				a := action.Password{
+					Config: action.GlobalConfig{
+						APIUrl:    c.String("api-url"),
+						TokenFile: c.String("tokenfile"),
+					},
+				}
+				err := a.PasswordGetFavorite()
+				if err != nil {
+					return err
+				}
+				return nil
+			},
+		},
+		{
+			Name:    "make-favorite",
+			Aliases: []string{"mf"},
+			Usage:   "Mark password as favorite",
+			Flags: []cli.Flag{
+				&cli.StringFlag{
+					Name:     "id",
+					Usage:    "Password ID",
+					Required: true,
+				},
+			},
+			Action: func(c *cli.Context) error {
+				a := action.Password{
+					Config: action.GlobalConfig{
+						APIUrl:    c.String("api-url"),
+						TokenFile: c.String("tokenfile"),
+					},
+				}
+				err := a.PasswordMakeFavorite(c.String("id"))
+				if err != nil {
+					return err
+				}
+				return nil
+			},
+		},
+		{
+			Name:    "make-unfavorite",
+			Aliases: []string{"mu"},
+			Usage:   "Unfavorite password",
+			Flags: []cli.Flag{
+				&cli.StringFlag{
+					Name:     "id",
+					Usage:    "Password ID",
+					Required: true,
+				},
+			},
+			Action: func(c *cli.Context) error {
+				a := action.Password{
+					Config: action.GlobalConfig{
+						APIUrl:    c.String("api-url"),
+						TokenFile: c.String("tokenfile"),
+					},
+				}
+				err := a.PasswordMakeUnFavorite(c.String("id"))
+				if err != nil {
+					return err
+				}
+				return nil
+			},
+		},
 	},
 }

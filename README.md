@@ -23,6 +23,12 @@ There is no API public documentation but official js [client](<https://github.co
   * search
   * delete
   * edit
+  * copy
+  * move
+  * get recent
+  * get favorite
+  * make favorite
+  * make unfavorite
 * Users
   * get
 * Vaults
