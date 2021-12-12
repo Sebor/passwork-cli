@@ -202,7 +202,7 @@ var PasswordCommands = cli.Command{
 				},
 				&cli.StringFlag{
 					Name:  "password",
-					Usage: "Password",
+					Usage: "Password value",
 				},
 				&cli.StringFlag{
 					Name:  "vault-id",
@@ -247,6 +247,48 @@ var PasswordCommands = cli.Command{
 					},
 				}
 				err := a.PasswordEdit(c.String("id"))
+				if err != nil {
+					return err
+				}
+				return nil
+			},
+		},
+		{
+			Name:    "copy",
+			Aliases: []string{"c"},
+			Usage:   "Copy password to another vault/folder",
+			Flags: []cli.Flag{
+				&cli.StringFlag{
+					Name:     "id",
+					Usage:    "Password ID",
+					Required: true,
+				},
+				&cli.StringFlag{
+					Name:     "to-folder-id",
+					Usage:    "Password destination Folder ID",
+					Required: true,
+				},
+				&cli.StringFlag{
+					Name:     "to-vault-id",
+					Usage:    "Password destination Vault ID",
+					Required: true,
+				},
+				&cli.StringFlag{
+					Name:  "password",
+					Usage: "Password value. Will be EMPTY if omitted",
+				},
+			},
+			Action: func(c *cli.Context) error {
+				a := action.Password{
+					VaultTo:         c.String("to-vault-id"),
+					FolderTo:        c.String("to-folder-id"),
+					CryptedPassword: base64.StdEncoding.EncodeToString([]byte(c.String("password"))),
+					Config: action.GlobalConfig{
+						APIUrl:    c.String("api-url"),
+						TokenFile: c.String("tokenfile"),
+					},
+				}
+				err := a.PasswordCopy(c.String("id"))
 				if err != nil {
 					return err
 				}

@@ -21,6 +21,8 @@ type Password struct {
 	VaultId         string       `json:"vaultId,omitempty"`
 	Color           int          `json:"color,omitempty"`
 	Tags            []string     `json:"tags,omitempty"`
+	VaultTo         string       `json:"vaultTo,omitempty"`
+	FolderTo        string       `json:"folderTo,omitempty"`
 	Config          GlobalConfig `json:"-"`
 }
 
@@ -70,7 +72,7 @@ func (p *Password) PasswordDelete(id string) error {
 func (p *PasswordSearchQuery) PasswordSearch() error {
 	data, err := json.Marshal(p)
 	if err != nil {
-		return fmt.Errorf("ERROR: %s", err.Error())
+		return fmt.Errorf("cannot dump data: %s", err.Error())
 	}
 
 	url := p.Config.APIUrl + PASSWORDS_URI_PREFIX + "/search"
@@ -85,11 +87,26 @@ func (p *PasswordSearchQuery) PasswordSearch() error {
 func (p *Password) PasswordEdit(id string) error {
 	data, err := json.Marshal(p)
 	if err != nil {
-		return fmt.Errorf("ERROR: %s", err.Error())
+		return fmt.Errorf("cannot dump data: %s", err.Error())
 	}
 
 	url := p.Config.APIUrl + PASSWORDS_URI_PREFIX + "/" + id
 	_, err = callAPI(url, "PUT", p.Config.ReadToken(), bytes.NewReader(data))
+	if err != nil {
+		return fmt.Errorf("cannot call API: %s", err.Error())
+	}
+
+	return nil
+}
+
+func (p *Password) PasswordCopy(id string) error {
+	data, err := json.Marshal(p)
+	if err != nil {
+		return fmt.Errorf("cannot dump data: %s", err.Error())
+	}
+
+	url := p.Config.APIUrl + PASSWORDS_URI_PREFIX + "/" + id + "/copy"
+	_, err = callAPI(url, "POST", p.Config.ReadToken(), bytes.NewReader(data))
 	if err != nil {
 		return fmt.Errorf("cannot call API: %s", err.Error())
 	}
