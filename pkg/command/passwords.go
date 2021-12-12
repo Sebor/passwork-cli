@@ -337,5 +337,23 @@ var PasswordCommands = cli.Command{
 				return nil
 			},
 		},
+		{
+			Name:    "get-recent",
+			Aliases: []string{"gr"},
+			Usage:   "Get recently viewed passwords",
+			Action: func(c *cli.Context) error {
+				a := action.Password{
+					Config: action.GlobalConfig{
+						APIUrl:    c.String("api-url"),
+						TokenFile: c.String("tokenfile"),
+					},
+				}
+				err := a.PasswordGetRecent()
+				if err != nil {
+					return err
+				}
+				return nil
+			},
+		},
 	},
 }

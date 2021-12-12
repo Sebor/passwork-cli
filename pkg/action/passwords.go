@@ -128,3 +128,13 @@ func (p *Password) PasswordMove(id string) error {
 
 	return nil
 }
+
+func (p *Password) PasswordGetRecent() error {
+	url := p.Config.APIUrl + PASSWORDS_URI_PREFIX + "/recent"
+	_, err := callAPI(url, "GET", p.Config.ReadToken(), nil)
+	if err != nil {
+		return fmt.Errorf("cannot call API: %s", err.Error())
+	}
+
+	return nil
+}
