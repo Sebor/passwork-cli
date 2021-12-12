@@ -51,6 +51,14 @@ go build cmd/passwork/passwork.go
 ./passwork -h
 ```
 
+## Usage
+
+You can set Passwork API URL / API Key by multiple ways:
+
+* Using options `--api-url` and `--api-key`
+* Setting env variables `$PASSWORK_API_URL` and `$PASSWORK_API_KEY`
+* Creating files `.passwork-api-url` and `.passwork-api-key` within executed(current) directory
+
 ## Auto-completion
 
 ### Bash

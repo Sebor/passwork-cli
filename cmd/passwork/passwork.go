@@ -10,6 +10,8 @@ import (
 )
 
 var (
+	APIURLFilename = ".passwork-api-url"
+
 	AppUsage   = "Passwork Command Line Interface tool (https://passwork.me)"
 	AppAuthors = []*cli.Author{
 		{
@@ -54,6 +56,7 @@ func main() {
 			Aliases:  []string{"au"},
 			Usage:    "Passwork API URL",
 			EnvVars:  []string{"PASSWORK_API_URL"},
+			FilePath: ".passwork-api-url",
 			Required: true,
 		},
 		&cli.StringFlag{

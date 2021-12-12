@@ -22,6 +22,7 @@ var AuthCommands = cli.Command{
 					Usage:       "Passwork API key",
 					DefaultText: "$PASSWORK_API_KEY",
 					EnvVars:     []string{"PASSWORK_API_KEY"},
+					FilePath:    ".passwork-api-key",
 					Required:    true,
 				},
 			},
