@@ -1,0 +1,30 @@
+before:
+  hooks:
+    - go mod tidy
+builds:
+  - main: ./cmd/passwork
+    #id: passwork
+    binary: passwork
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - windows
+      - darwin
+    goarch:
+      - amd64
+      - arm64
+    ldflags:
+      - -s -w -X main.AppVersion={{.Version}}
+# archives:
+#   - format: binary
+checksum:
+  name_template: "checksums.txt"
+snapshot:
+  name_template: "{{ incpatch .Version }}-next"
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
