@@ -39,6 +39,13 @@ There is no API public documentation but official js [client](<https://github.co
   * folders
   * passwords
 
+## Homebrew Installation
+
+```bash
+brew tap Sebor/tap
+brew install passwork-cli
+```
+
 ## Build
 
 ```bash
