@@ -46,5 +46,4 @@ brews:
 
     install: |
       bin.install "passwork"
-      prefix.install "README.md"
       bash_completion.install "autocomplete/bash_autocomplete" => "passwork"
