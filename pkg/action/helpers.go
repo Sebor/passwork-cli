@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"strings"
 	"time"
 )
 
@@ -25,12 +26,19 @@ type GlobalConfig struct {
 	TokenFile string
 }
 
+func NewGlobalConfig(apiURL, tokenFile string) *GlobalConfig {
+	return &GlobalConfig{
+		APIUrl:    strings.TrimSpace(apiURL),
+		TokenFile: strings.TrimSpace(tokenFile),
+	}
+}
+
 func callAPI(url, method, token string, data io.Reader) ([]byte, error) {
 	client := &http.Client{
 		Timeout: time.Second * 5,
 	}
 
-	req, err := http.NewRequest(method, url, data)
+	req, err := http.NewRequest(method, strings.TrimSpace(url), data)
 	if err != nil {
 		return nil, fmt.Errorf("cannot create request: %s", err.Error())
 	}

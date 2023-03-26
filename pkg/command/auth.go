@@ -29,10 +29,10 @@ var AuthCommands = cli.Command{
 			Action: func(c *cli.Context) error {
 				a := action.Auth{
 					APIkey: c.String("api-key"),
-					Config: action.GlobalConfig{
-						APIUrl:    c.String("api-url"),
-						TokenFile: c.String("tokenfile"),
-					},
+					Config: *action.NewGlobalConfig(
+						c.String("api-url"),
+						c.String("tokenfile"),
+					),
 				}
 				err := a.AuthLogin()
 				if err != nil {
@@ -47,10 +47,10 @@ var AuthCommands = cli.Command{
 			Usage:   "Close session",
 			Action: func(c *cli.Context) error {
 				a := action.Auth{
-					Config: action.GlobalConfig{
-						APIUrl:    c.String("api-url"),
-						TokenFile: c.String("tokenfile"),
-					},
+					Config: *action.NewGlobalConfig(
+						c.String("api-url"),
+						c.String("tokenfile"),
+					),
 				}
 				err := a.AuthLogout()
 				if err != nil {

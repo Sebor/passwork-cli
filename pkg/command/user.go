@@ -17,10 +17,10 @@ var UserCommands = cli.Command{
 			Usage:   "Get user info",
 			Action: func(c *cli.Context) error {
 				a := action.User{
-					Config: action.GlobalConfig{
-						APIUrl:    c.String("api-url"),
-						TokenFile: c.String("tokenfile"),
-					},
+					Config: *action.NewGlobalConfig(
+						c.String("api-url"),
+						c.String("tokenfile"),
+					),
 				}
 				err := a.UserGet()
 				if err != nil {

@@ -75,10 +75,10 @@ var PasswordCommands = cli.Command{
 					MasterHash:      c.String("master-hash"),
 					Color:           c.Int("color"),
 					Tags:            c.StringSlice("tags"),
-					Config: action.GlobalConfig{
-						APIUrl:    c.String("api-url"),
-						TokenFile: c.String("tokenfile"),
-					},
+					Config: *action.NewGlobalConfig(
+						c.String("api-url"),
+						c.String("tokenfile"),
+					),
 				}
 				err := a.PasswordAdd()
 				if err != nil {
@@ -116,10 +116,10 @@ var PasswordCommands = cli.Command{
 					VaultId: c.String("vault-id"),
 					Colors:  c.IntSlice("colors"),
 					Tags:    c.StringSlice("tags"),
-					Config: action.GlobalConfig{
-						APIUrl:    c.String("api-url"),
-						TokenFile: c.String("tokenfile"),
-					},
+					Config: *action.NewGlobalConfig(
+						c.String("api-url"),
+						c.String("tokenfile"),
+					),
 				}
 				err := a.PasswordSearch()
 				if err != nil {
@@ -141,10 +141,10 @@ var PasswordCommands = cli.Command{
 			},
 			Action: func(c *cli.Context) error {
 				a := action.Password{
-					Config: action.GlobalConfig{
-						APIUrl:    c.String("api-url"),
-						TokenFile: c.String("tokenfile"),
-					},
+					Config: *action.NewGlobalConfig(
+						c.String("api-url"),
+						c.String("tokenfile"),
+					),
 				}
 				err := a.PasswordGet(c.String("id"))
 				if err != nil {
@@ -166,10 +166,10 @@ var PasswordCommands = cli.Command{
 			},
 			Action: func(c *cli.Context) error {
 				a := action.Password{
-					Config: action.GlobalConfig{
-						APIUrl:    c.String("api-url"),
-						TokenFile: c.String("tokenfile"),
-					},
+					Config: *action.NewGlobalConfig(
+						c.String("api-url"),
+						c.String("tokenfile"),
+					),
 				}
 				err := a.PasswordDelete(c.String("id"))
 				if err != nil {
@@ -241,10 +241,10 @@ var PasswordCommands = cli.Command{
 					MasterHash:      c.String("master-hash"),
 					Color:           c.Int("color"),
 					Tags:            c.StringSlice("tags"),
-					Config: action.GlobalConfig{
-						APIUrl:    c.String("api-url"),
-						TokenFile: c.String("tokenfile"),
-					},
+					Config: *action.NewGlobalConfig(
+						c.String("api-url"),
+						c.String("tokenfile"),
+					),
 				}
 				err := a.PasswordEdit(c.String("id"))
 				if err != nil {
@@ -283,10 +283,10 @@ var PasswordCommands = cli.Command{
 					VaultTo:         c.String("to-vault-id"),
 					FolderTo:        c.String("to-folder-id"),
 					CryptedPassword: base64.StdEncoding.EncodeToString([]byte(c.String("password"))),
-					Config: action.GlobalConfig{
-						APIUrl:    c.String("api-url"),
-						TokenFile: c.String("tokenfile"),
-					},
+					Config: *action.NewGlobalConfig(
+						c.String("api-url"),
+						c.String("tokenfile"),
+					),
 				}
 				err := a.PasswordCopy(c.String("id"))
 				if err != nil {
@@ -325,10 +325,10 @@ var PasswordCommands = cli.Command{
 					VaultTo:         c.String("to-vault-id"),
 					FolderTo:        c.String("to-folder-id"),
 					CryptedPassword: base64.StdEncoding.EncodeToString([]byte(c.String("password"))),
-					Config: action.GlobalConfig{
-						APIUrl:    c.String("api-url"),
-						TokenFile: c.String("tokenfile"),
-					},
+					Config: *action.NewGlobalConfig(
+						c.String("api-url"),
+						c.String("tokenfile"),
+					),
 				}
 				err := a.PasswordMove(c.String("id"))
 				if err != nil {
@@ -343,10 +343,10 @@ var PasswordCommands = cli.Command{
 			Usage:   "Get recently viewed passwords",
 			Action: func(c *cli.Context) error {
 				a := action.Password{
-					Config: action.GlobalConfig{
-						APIUrl:    c.String("api-url"),
-						TokenFile: c.String("tokenfile"),
-					},
+					Config: *action.NewGlobalConfig(
+						c.String("api-url"),
+						c.String("tokenfile"),
+					),
 				}
 				err := a.PasswordGetRecent()
 				if err != nil {
@@ -361,10 +361,10 @@ var PasswordCommands = cli.Command{
 			Usage:   "Get favorite passwords",
 			Action: func(c *cli.Context) error {
 				a := action.Password{
-					Config: action.GlobalConfig{
-						APIUrl:    c.String("api-url"),
-						TokenFile: c.String("tokenfile"),
-					},
+					Config: *action.NewGlobalConfig(
+						c.String("api-url"),
+						c.String("tokenfile"),
+					),
 				}
 				err := a.PasswordGetFavorite()
 				if err != nil {
@@ -386,10 +386,10 @@ var PasswordCommands = cli.Command{
 			},
 			Action: func(c *cli.Context) error {
 				a := action.Password{
-					Config: action.GlobalConfig{
-						APIUrl:    c.String("api-url"),
-						TokenFile: c.String("tokenfile"),
-					},
+					Config: *action.NewGlobalConfig(
+						c.String("api-url"),
+						c.String("tokenfile"),
+					),
 				}
 				err := a.PasswordMakeFavorite(c.String("id"))
 				if err != nil {
@@ -411,10 +411,10 @@ var PasswordCommands = cli.Command{
 			},
 			Action: func(c *cli.Context) error {
 				a := action.Password{
-					Config: action.GlobalConfig{
-						APIUrl:    c.String("api-url"),
-						TokenFile: c.String("tokenfile"),
-					},
+					Config: *action.NewGlobalConfig(
+						c.String("api-url"),
+						c.String("tokenfile"),
+					),
 				}
 				err := a.PasswordMakeUnFavorite(c.String("id"))
 				if err != nil {
@@ -437,10 +437,10 @@ var PasswordCommands = cli.Command{
 			Action: func(c *cli.Context) error {
 				a := action.Password{
 					Url: c.String("url"),
-					Config: action.GlobalConfig{
-						APIUrl:    c.String("api-url"),
-						TokenFile: c.String("tokenfile"),
-					},
+					Config: *action.NewGlobalConfig(
+						c.String("api-url"),
+						c.String("tokenfile"),
+					),
 				}
 				err := a.PasswordSearchByURL()
 				if err != nil {

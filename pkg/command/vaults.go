@@ -17,10 +17,10 @@ var VaultCommands = cli.Command{
 			Usage:   "Get list of user vaults",
 			Action: func(c *cli.Context) error {
 				a := action.Vault{
-					Config: action.GlobalConfig{
-						APIUrl:    c.String("api-url"),
-						TokenFile: c.String("tokenfile"),
-					},
+					Config: *action.NewGlobalConfig(
+						c.String("api-url"),
+						c.String("tokenfile"),
+					),
 				}
 				err := a.VaultList()
 				if err != nil {
@@ -35,10 +35,10 @@ var VaultCommands = cli.Command{
 			Usage:   "Get all tags",
 			Action: func(c *cli.Context) error {
 				a := action.Vault{
-					Config: action.GlobalConfig{
-						APIUrl:    c.String("api-url"),
-						TokenFile: c.String("tokenfile"),
-					},
+					Config: *action.NewGlobalConfig(
+						c.String("api-url"),
+						c.String("tokenfile"),
+					),
 				}
 				err := a.VaultAllTags()
 				if err != nil {
@@ -53,10 +53,10 @@ var VaultCommands = cli.Command{
 			Usage:   "Get domain info",
 			Action: func(c *cli.Context) error {
 				a := action.Vault{
-					Config: action.GlobalConfig{
-						APIUrl:    c.String("api-url"),
-						TokenFile: c.String("tokenfile"),
-					},
+					Config: *action.NewGlobalConfig(
+						c.String("api-url"),
+						c.String("tokenfile"),
+					),
 				}
 				err := a.VaultDomain()
 				if err != nil {
@@ -78,10 +78,10 @@ var VaultCommands = cli.Command{
 			},
 			Action: func(c *cli.Context) error {
 				a := action.Vault{
-					Config: action.GlobalConfig{
-						APIUrl:    c.String("api-url"),
-						TokenFile: c.String("tokenfile"),
-					},
+					Config: *action.NewGlobalConfig(
+						c.String("api-url"),
+						c.String("tokenfile"),
+					),
 				}
 				err := a.VaultGetFolders(c.String("id"))
 				if err != nil {
@@ -103,10 +103,10 @@ var VaultCommands = cli.Command{
 			},
 			Action: func(c *cli.Context) error {
 				a := action.Vault{
-					Config: action.GlobalConfig{
-						APIUrl:    c.String("api-url"),
-						TokenFile: c.String("tokenfile"),
-					},
+					Config: *action.NewGlobalConfig(
+						c.String("api-url"),
+						c.String("tokenfile"),
+					),
 				}
 				err := a.VaultGetPasswords(c.String("id"))
 				if err != nil {
@@ -128,10 +128,10 @@ var VaultCommands = cli.Command{
 			},
 			Action: func(c *cli.Context) error {
 				a := action.Vault{
-					Config: action.GlobalConfig{
-						APIUrl:    c.String("api-url"),
-						TokenFile: c.String("tokenfile"),
-					},
+					Config: *action.NewGlobalConfig(
+						c.String("api-url"),
+						c.String("tokenfile"),
+					),
 				}
 				err := a.VaultGetFullInfo(c.String("id"))
 				if err != nil {
@@ -153,10 +153,10 @@ var VaultCommands = cli.Command{
 			},
 			Action: func(c *cli.Context) error {
 				a := action.Vault{
-					Config: action.GlobalConfig{
-						APIUrl:    c.String("api-url"),
-						TokenFile: c.String("tokenfile"),
-					},
+					Config: *action.NewGlobalConfig(
+						c.String("api-url"),
+						c.String("tokenfile"),
+					),
 				}
 				err := a.VaultGetTags(c.String("id"))
 				if err != nil {
