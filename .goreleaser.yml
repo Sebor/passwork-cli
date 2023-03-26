@@ -19,6 +19,7 @@ builds:
 archives:
   - files:
       - "autocomplete/*"
+    rlcp: true
     # format: binary
 checksum:
   name_template: "checksums.txt"
